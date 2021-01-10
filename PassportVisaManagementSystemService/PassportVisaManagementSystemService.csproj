@@ -65,10 +65,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\ApplyPassport.cs" />
     <Compile Include="Model\City.cs" />
     <Compile Include="Model\Country.cs" />
-    <Compile Include="Model\SignIn.cs" />
+    <Compile Include="Model\HintQuestion.cs" />
     <Compile Include="Model\State.cs" />
+    <Compile Include="Model\User.cs" />
     <Compile Include="Service1.svc.cs">
       <DependentUpon>Service1.svc</DependentUpon>
     </Compile>
