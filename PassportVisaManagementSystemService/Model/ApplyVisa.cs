@@ -34,7 +34,9 @@ namespace PassportVisaManagementSystemService.Model
         [DataMember]
         public double RegistrationCost { set; get; }
 
-        
+        [DataMember]
+        public string status { set; get; }
+
 
 
 
