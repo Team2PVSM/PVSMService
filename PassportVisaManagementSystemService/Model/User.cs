@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
 namespace PassportVisaManagementSystemService.Model
 {
+    [DataContract]
     public class User
     {
-        //[Key]
+        [Key]
         [DataMember]
         public int Id { set; get; }
 
         [DataMember]
-        public int UserId { set; get; }
+        public string UserId { set; get; }
        
         [DataMember]
         public string FirstName { set; get; }

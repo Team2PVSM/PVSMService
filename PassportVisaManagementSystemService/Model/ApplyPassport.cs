@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
 namespace PassportVisaManagementSystemService.Model
 {
+    [DataContract]
     public class ApplyPassport
     {
+
+        [Key]
         [DataMember]
+        public int Id { get; set; }
+        [DataMember]
+
         public User User { get; set; }
         [DataMember]
         public Country Country { get; set; }
