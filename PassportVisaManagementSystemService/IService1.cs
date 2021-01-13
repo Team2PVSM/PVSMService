@@ -13,8 +13,17 @@ namespace PassportVisaManagementSystemService
     public interface IService1
     {
        [OperationContract]
-        bool SignIn(User U);
+        bool SignIn(string Username, string Password);
+
+        [OperationContract]
+        bool SignUp(User U);
+
+        [OperationContract]
+        List<HintQuestion> FetchHintQuestion();
+
+        [OperationContract]
+        User FetchUserByEmailAddress(string Email);
 
     }
-    
+
 }
