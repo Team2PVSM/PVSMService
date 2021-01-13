@@ -8,11 +8,6 @@ namespace PassportVisaManagementSystemService.Model
     public partial class Model1 : DbContext
     {
         public Model1()
-<<<<<<< HEAD
-            : base("name=Model1")
-        {
-        }
-=======
             : base("name=PVMS")
         {
         }
@@ -24,7 +19,6 @@ namespace PassportVisaManagementSystemService.Model
         public DbSet<ApplyVisa> ApplyVisas { set; get; }
         public DbSet<ApplyPassport> ApplyPassports { set; get; }
 
->>>>>>> 8e0c69e864a1313ebc0cf1e3826472d6f8a87dae
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
