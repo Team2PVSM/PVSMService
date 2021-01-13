@@ -16,5 +16,8 @@ namespace PassportVisaManagementSystemService.Model
         [DataMember]
         public string Questions { set; get; }
 
+        [DataMember]
+        public virtual IEnumerable<User> UserEnumerable { set; get; }
+
     }
 }

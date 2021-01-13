@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
@@ -33,7 +34,7 @@ namespace PassportVisaManagementSystemService.Model
         //public Country Country { set; get; }
 
         [DataMember]
-        public int	ContactNo { set; get; }
+        public long	ContactNo { set; get; }
 
         [DataMember]
         public string EmailAddress { set; get; }
@@ -48,7 +49,12 @@ namespace PassportVisaManagementSystemService.Model
         public string ApplyType { set; get; }
 
         [DataMember]
-        public HintQuestion HintQuestion { set; get; }
+        public int?  HintQuestionId { set; get; }
+
+        [ForeignKey("HintQuestionId")]
+        public virtual HintQuestion HintQuestion { set; get; }
+
+
 
         [DataMember]
         public string HintAnswer { set; get; }
