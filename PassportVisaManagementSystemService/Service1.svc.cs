@@ -14,14 +14,15 @@ namespace PassportVisaManagementSystemService
     {
         public bool SignIn(User U)
         {
-            if (U.UserName=="admin" && U.Password=="admin")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            //if (U.UserName=="admin" && U.Password=="admin")
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+            return true;
         }
 
         
