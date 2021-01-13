@@ -15,17 +15,6 @@ namespace PassportVisaManagementSystemService
         Model1 PVMSModel = new Model1();
         public bool SignIn(string Username, string Password)
         {
-<<<<<<< HEAD
-            //if (U.UserName=="admin" && U.Password=="admin")
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            return true;
-=======
             //Model1 M = new Model1();
             List<User> U = new List<User>();
             U = PVMSModel.Users.Where(w => w.UserId == Username && w.Password == Password).ToList();
@@ -38,7 +27,6 @@ namespace PassportVisaManagementSystemService
             {
                 return false;
             }
->>>>>>> 8e0c69e864a1313ebc0cf1e3826472d6f8a87dae
         }
 
         public bool SignUp(User U)
