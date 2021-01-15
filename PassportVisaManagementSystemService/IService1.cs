@@ -6,6 +6,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Web.Http.Results;
+using System.Web.Mvc;
 
 namespace PassportVisaManagementSystemService
 {
@@ -22,7 +24,14 @@ namespace PassportVisaManagementSystemService
         List<HintQuestion> FetchHintQuestion();
 
         [OperationContract]
-        User FetchUserByEmailAddress(string Email);
+        string FetchUserByEmailAddress(string Email);
+
+        [OperationContract]
+        string FetchUserByuserId(string UserId);
+
+        [OperationContract]
+        string FetchUserByuserparameter(string parameter, string value);
+
 
     }
 

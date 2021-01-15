@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace PassportVisaManagementSystemService
 {
@@ -113,9 +114,46 @@ namespace PassportVisaManagementSystemService
             return PVMSModel.HintQuestions.ToList();
         }
 
-        public User FetchUserByEmailAddress(string Email)
+
+        public string FetchUserByEmailAddress(string Email)
         {
-           return PVMSModel.Users.Where(x => x.EmailAddress == Email).FirstOrDefault();
+            List<User> U = new List<User>();
+
+            U = PVMSModel.Users.Where(x=>x.EmailAddress==Email).ToList();
+            var json = new JavaScriptSerializer().Serialize(U);
+            return json;
+        }
+
+        public string FetchUserByuserId(string UserId)
+        {
+            List<User> U = new List<User>();
+
+            U = PVMSModel.Users.Where(x => x.UserId == UserId).ToList();
+            var json = new JavaScriptSerializer().Serialize(U);
+            return json;
+        }
+        public string FetchUserByuserparameter(string parameter,string value)
+        {
+            if (parameter.ToLower() =="email")
+            {
+                List<User> U = new List<User>();
+
+                U = PVMSModel.Users.Where(x => x.EmailAddress == value).ToList();
+                var json = new JavaScriptSerializer().Serialize(U);
+                return json;
+            }
+            else if (parameter.ToLower() == "userid")
+            {
+                List<User> U = new List<User>();
+
+                U = PVMSModel.Users.Where(x => x.UserId == value).ToList();
+                var json = new JavaScriptSerializer().Serialize(U);
+                return json;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
