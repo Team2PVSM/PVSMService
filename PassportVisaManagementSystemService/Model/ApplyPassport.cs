@@ -16,8 +16,10 @@ namespace PassportVisaManagementSystemService.Model
         [DataMember]
         public int Id { get; set; }
         [DataMember]
+        public int UserId { set; get; }
 
-        public User User { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { set; get; }
         [DataMember]
         public int? CountryId { set; get; }
 
@@ -41,16 +43,19 @@ namespace PassportVisaManagementSystemService.Model
         public string ServiceType { get; set; }
         [DataMember]
         public string BookletType { get; set; }
-        [DataMember]
-        public string BookletId { get; set; }
+        //[DataMember]
+        //public string BookletId { get; set; }
         [DataMember]
         public DateTime IssueDate { get; set; }
         [DataMember]
-        public string TempId { get; set; }
+        public string PassportNumber { get; set; }
         [DataMember]
         public DateTime ExpiryDate { get; set; }
         [DataMember]
         public Double Amount { get; set; }
-
+        [DataMember]
+        public int Pin { get; set; }
+        [DataMember]
+        public string Status { get; set; }
     }
 }
