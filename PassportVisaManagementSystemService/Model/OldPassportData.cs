@@ -9,10 +9,10 @@ using System.Web;
 namespace PassportVisaManagementSystemService.Model
 {
     [DataContract]
-    public class ApplyPassport
+    public class OldPassportData
     {
-
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [DataMember]
         public int Id { get; set; }
         [DataMember]

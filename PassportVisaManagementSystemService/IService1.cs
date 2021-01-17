@@ -31,8 +31,21 @@ namespace PassportVisaManagementSystemService
 
         [OperationContract]
         string FetchUserByuserparameter(string parameter, string value);
+        
+		[OperationContract]
+        bool ApplyForPassport(ApplyPassport AP);
 
+        [OperationContract]
+        bool ReIssuePassport(ApplyPassport RP);
 
+        [OperationContract]
+        List<Country> FetchCountries();
+
+        [OperationContract]
+        List<State> FetchState(int CountryId);
+
+        [OperationContract]
+        List<City> FetchCity(int StateId);
     }
 
 }

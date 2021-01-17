@@ -155,5 +155,125 @@ namespace PassportVisaManagementSystemService
                 return null;
             }
         }
+        public bool ApplyForPassport(ApplyPassport AP)
+        {
+            if (AP.BookletType.ToLower() == "60pages")
+            {
+                AP.PassportNumber = GetPassportIdForSixty();
+            }
+            if (AP.BookletType.ToLower() == "30pages")
+            {
+                AP.PassportNumber = GetPassportIdForThirty();
+            }
+            AP.Reason = "NA";
+            AP.ExpiryDate = GetExpiryDate(AP.IssueDate);
+            AP.Amount = GetAmount(AP.ServiceType);
+            AP.Status = "applypassport";
+            //int usercount = (from c in PVMSModel.ApplyPassports
+            //                 where c.UserId == AP.UserId
+            //                 select c).Count();
+            //if (usercount == 0)
+            //{
+            //    PVMSModel.ApplyPassports.Add(AP);
+            //    PVMSModel.SaveChanges();
+            //}
+            //else
+            //    return false;
+            PVMSModel.ApplyPassports.Add(AP);
+            PVMSModel.SaveChanges();
+            return true;
+
+        }
+
+        private double GetAmount(string serviceType)
+        {
+            double namt = 2500;
+            double tamt = 5000;
+            if (serviceType.ToLower() == "normal")
+            {
+                return namt;
+            }
+            else
+            {
+                return tamt;
+            }
+        }
+
+        private DateTime GetExpiryDate(DateTime issueDate)
+        {
+            return issueDate.AddYears(10);
+        }
+
+        private string GetPassportIdForSixty()
+        {
+            string str = "FPS-60";
+            Random rnd = new Random();
+            return str + rnd.Next(1000, 9999).ToString();
+        }
+
+        private string GetPassportIdForThirty()
+        {
+            string str = "FPS-30";
+            Random rnd = new Random();
+            return str + rnd.Next(1000, 9999).ToString();
+        }
+
+        public bool ReIssuePassport(ApplyPassport RP)
+        {
+            if (RP.BookletType.ToLower() == "60pages")
+            {
+                RP.PassportNumber = GetPassportIdForSixty();
+            }
+            if (RP.BookletType.ToLower() == "30pages")
+            {
+                RP.PassportNumber = GetPassportIdForThirty();
+            }
+            RP.ExpiryDate = GetExpiryDate(RP.IssueDate);
+            RP.Amount = ReIssueAmount(RP.ServiceType);
+            RP.Status = "reissuepassport";
+            var oldPassport = PVMSModel.ApplyPassports.FirstOrDefault(x => x.UserId == RP.UserId);
+            if(oldPassport != null)
+            {
+                PVMSModel.ApplyPassports.Remove(oldPassport);
+                PVMSModel.ApplyPassports.Add(RP);
+                PVMSModel.SaveChanges();
+
+                OldPassportData O = PVMSModel.OldPassportDatas.FirstOrDefault(x => x.PassportNumber == oldPassport.PassportNumber);
+                O.Reason = RP.Reason;
+                PVMSModel.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private double ReIssueAmount(string serviceType)
+        {
+            double namt = 1500;
+            double tamt = 3000;
+            if (serviceType.ToLower() == "normal")
+            {
+                return namt;
+            }
+            else
+            {
+                return tamt;
+            }
+        }
+
+        public List<Country> FetchCountries()
+        {
+            return PVMSModel.Countries.ToList();
+        }
+        public List<State> FetchState(int CountryId)
+        {
+            return PVMSModel.States.Where(x => x.CountryId == CountryId).ToList();
+        }
+        public List<City> FetchCity(int StateId)
+        {
+            return PVMSModel.Cities.Where(x => x.StateId == StateId).ToList();
+        }
     }
 }
