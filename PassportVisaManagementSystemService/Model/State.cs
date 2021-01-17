@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
@@ -19,7 +20,10 @@ namespace PassportVisaManagementSystemService.Model
         public string StateName { set; get; }
 
         [DataMember]
-        public Country Country { set; get; }
+        public int? CountryId { set; get; }
+
+        [ForeignKey("CountryId")]
+        public virtual Country Country { set; get; }
 
     }
 }
