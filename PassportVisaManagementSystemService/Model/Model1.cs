@@ -18,7 +18,7 @@ namespace PassportVisaManagementSystemService.Model
         public DbSet<City> Cities { set; get; }
         public DbSet<ApplyVisa> ApplyVisas { set; get; }
         public DbSet<ApplyPassport> ApplyPassports { set; get; }
-
+        public DbSet<OldPassportData> OldPassportDatas { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
