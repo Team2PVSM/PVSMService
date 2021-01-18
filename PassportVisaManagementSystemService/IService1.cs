@@ -14,7 +14,7 @@ namespace PassportVisaManagementSystemService
     [ServiceContract]
     public interface IService1
     {
-       [OperationContract]
+        [OperationContract]
         bool SignIn(string Username, string Password);
 
         [OperationContract]
@@ -31,8 +31,8 @@ namespace PassportVisaManagementSystemService
 
         [OperationContract]
         string FetchUserByuserparameter(string parameter, string value);
-        
-		[OperationContract]
+
+        [OperationContract]
         bool ApplyForPassport(ApplyPassport AP);
 
         [OperationContract]
@@ -42,10 +42,22 @@ namespace PassportVisaManagementSystemService
         List<Country> FetchCountries();
 
         [OperationContract]
-        List<State> FetchState(int CountryId);
+        string FetchState(int CountryId);
 
         [OperationContract]
-        List<City> FetchCity(int StateId);
+        string FetchCity(int StateId);
+
+
+        [OperationContract]
+        int getIdByUserId(string userName);
+
+        [OperationContract]
+        List<State> State();
+
+        [OperationContract]
+        List<City> City();
+
+
     }
 
 }

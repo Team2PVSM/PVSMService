@@ -267,13 +267,45 @@ namespace PassportVisaManagementSystemService
         {
             return PVMSModel.Countries.ToList();
         }
-        public List<State> FetchState(int CountryId)
+        public string FetchState(int CountryId)
         {
-            return PVMSModel.States.Where(x => x.CountryId == CountryId).ToList();
+            List<State> U = new List<State>();
+            U = PVMSModel.States.Where(x => x.CountryId == CountryId).ToList();
+            var json = new JavaScriptSerializer().Serialize(U);
+            return json;
         }
-        public List<City> FetchCity(int StateId)
+        public string FetchCity(int StateId)
         {
-            return PVMSModel.Cities.Where(x => x.StateId == StateId).ToList();
+            
+            List<City> U = new List<City>();
+
+            U = PVMSModel.Cities.Where(x => x.StateId == StateId).ToList();
+            var json = new JavaScriptSerializer().Serialize(U);
+            return json;
+            //return 
+        }
+
+        public List<State> State()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<City> City()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int getIdByUserId(string userName)
+        {
+            List<User> U = new List<User>();
+
+            U = PVMSModel.Users.Where(x => x.UserId == userName).ToList();
+            if (U.Count>0)
+            {
+
+            return U[0].Id;
+            }
+            return 0;
         }
     }
 }
