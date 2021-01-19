@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
@@ -15,7 +16,10 @@ namespace PassportVisaManagementSystemService.Model
         public int Id { set; get; }
 
         [DataMember]
-        public User User { set; get; }
+        public int UserId { set; get; }
+
+        [ForeignKey("UserId")]
+        public virtual User User { set; get; }
 
         [DataMember]
         public Country Countries { set; get; }
@@ -29,7 +33,7 @@ namespace PassportVisaManagementSystemService.Model
         public DateTime DateOfExpiry { set; get; }
 
         [DataMember]
-        public DateTime VisaNumber { set; get; }
+        public string VisaNumber { set; get; }
 
         [DataMember]
         public DateTime DateOfIssue { set; get; }
@@ -40,11 +44,11 @@ namespace PassportVisaManagementSystemService.Model
         [DataMember]
         public string status { set; get; }
 
+        [DataMember]
+        public int CancellationCharge { set; get; }
 
 
-
-
-
+        
 
 
 

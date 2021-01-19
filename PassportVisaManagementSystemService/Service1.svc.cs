@@ -307,5 +307,33 @@ namespace PassportVisaManagementSystemService
             }
             return 0;
         }
+
+        public string getPassportNumberByUserName(string userName)
+        {
+            List<ApplyPassport> U = new List<ApplyPassport>();
+            int userId = getIdByUserId(userName);
+            if (userId>0)
+            {
+
+                U = PVMSModel.ApplyPassports.Where(x => x.UserId == userId).ToList();
+                if (U.Count > 0)
+                {
+                    return U[0].PassportNumber;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<ApplyVisa> ApplyVisa()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
