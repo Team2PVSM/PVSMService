@@ -169,16 +169,6 @@ namespace PassportVisaManagementSystemService
             AP.ExpiryDate = GetExpiryDate(AP.IssueDate);
             AP.Amount = GetAmount(AP.ServiceType);
             AP.Status = "applypassport";
-            //int usercount = (from c in PVMSModel.ApplyPassports
-            //                 where c.UserId == AP.UserId
-            //                 select c).Count();
-            //if (usercount == 0)
-            //{
-            //    PVMSModel.ApplyPassports.Add(AP);
-            //    PVMSModel.SaveChanges();
-            //}
-            //else
-            //    return false;
             PVMSModel.ApplyPassports.Add(AP);
             PVMSModel.SaveChanges();
             return true;
@@ -308,14 +298,13 @@ namespace PassportVisaManagementSystemService
             return 0;
         }
 
-        public string getPassportNumberByUserName(string userName)
+        public string getPassportNumberByUserName(int userName)
         {
             List<ApplyPassport> U = new List<ApplyPassport>();
-            int userId = getIdByUserId(userName);
-            if (userId > 0)
-            {
+          //int userId = getIdByUserId(userName);
+           
 
-                U = PVMSModel.ApplyPassports.Where(x => x.UserId == userId).ToList();
+                U = PVMSModel.ApplyPassports.Where(x => x.UserId == userName).ToList();
                 if (U.Count > 0)
                 {
                     return U[0].PassportNumber;
@@ -324,25 +313,160 @@ namespace PassportVisaManagementSystemService
                 {
                     return null;
                 }
-            }
-            else
-            {
-                return null;
-            }
+            
+     
         }
 
-        public string fetchApplyPassportbyUserId(int UserId)
+        
+		public bool ApplyForVisa(ApplyVisa AV)
+        {
+            AV.DateOfIssue = AV.DateOfApplication.AddDays(10);
+            DateTime ExpiryDate = DateTime.Today;
+            int registrationcost = 0;
+            
+            string str = getPassportNumberByUserName(AV.UserId);
+
+            string occupation = AV.Occupation.ToString().ToLower();
+            string countries = AV.Countries.ToString().ToLower();
+            string occupationUpper = AV.Countries.ToString().ToUpper();
+            string countriesUpper = AV.Countries.ToString().ToUpper();
+            if (str != null)
+            {
+                if (AV.Occupation.ToString() == "Student")
+                {
+                    AV.VisaNumber = GetVisaNoStudent();
+                    ExpiryDate = AV.DateOfIssue.AddYears(2);
+
+                    if (AV.Countries.ToString() == "USA")
+                        registrationcost = 3000;
+                    else if (AV.Countries.ToString() == "China")
+                        registrationcost = 1500;
+                    else if (AV.Countries.ToString() == "Japan")
+                        registrationcost = 3500;
+                    else
+                        registrationcost = 2500;
+                }
+                else if (AV.Occupation.ToString() == "Private Employee")
+                {
+                    AV.VisaNumber = GetVisaNoPrivateEmployee();
+                    ExpiryDate = AV.DateOfIssue.AddYears(3);
+
+                    if (AV.Countries.ToString() == "USA")
+                        registrationcost = 4500;
+                    else if (AV.Countries.ToString() == "China")
+                        registrationcost = 2000;
+                    else if (AV.Countries.ToString() == "Japan")
+                        registrationcost = 4000;
+                    else
+                        registrationcost = 3000;
+                }
+                else if (AV.Occupation.ToString() == "Government Employee")
+                {
+                    AV.VisaNumber = GetVisaNoGovtEmployee();
+                    ExpiryDate = AV.DateOfIssue.AddYears(4);
+
+                    if (AV.Countries.ToString() == "USA")
+                        registrationcost = 5000;
+                    else if (AV.Countries.ToString() == "China")
+                        registrationcost = 3000;
+                    else if (AV.Countries.ToString() == "Japan")
+                        registrationcost = 4500;
+                    else
+                        registrationcost = 3500;
+                }
+                else if (AV.Occupation.ToString() == "Self Employed")
+                {
+                    AV.VisaNumber = GetVisaNoSelfEmployed();
+                    ExpiryDate = AV.DateOfIssue.AddYears(1);
+
+                    if (AV.Countries.ToString() == "USA")
+                        registrationcost = 6000;
+                    else if (AV.Countries.ToString() == "China")
+                        registrationcost = 4000;
+                    else if (AV.Countries.ToString() == "Japan")
+                        registrationcost = 9000;
+                    else
+                        registrationcost = 5500;
+                }
+                else if (AV.Occupation.ToString() == "Retired Employee")
+                {
+                    AV.VisaNumber = GetVisaNoRetiredEmployee();
+                    ExpiryDate = AV.DateOfIssue.AddYears(1).AddMonths(6);
+
+                    if (AV.Countries.ToString() == "USA")
+                        registrationcost = 2000;
+                    else if (AV.Countries.ToString() == "China")
+                        registrationcost = 2000;
+                    else if (AV.Countries.ToString() == "Japan")
+                        registrationcost = 1000;
+                    else
+                        registrationcost = 1000;
+                }
+
+                ApplyPassport PA = (from c in PVMSModel.ApplyPassports
+                                    where c.ExpiryDate > ExpiryDate
+                                    select c).FirstOrDefault();
+                if (PA != null)
+                    ExpiryDate = PA.ExpiryDate;
+
+                AV.DateOfExpiry = ExpiryDate;
+                AV.RegistrationCost = registrationcost;
+                AV.status = "ApplyVisa";
+                PVMSModel.ApplyVisas.Add(AV);
+                PVMSModel.SaveChanges();
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private string GetVisaNoRetiredEmployee()
+        {
+            string str = "VISA-RE-";
+            Random rnd = new Random();
+            return str + rnd.Next(1000, 9999).ToString();
+        }
+
+        private string GetVisaNoSelfEmployed()
+        {
+            string str = "VISA-SE-";
+            Random rnd = new Random();
+            return str + rnd.Next(1000, 9999).ToString();
+        }
+
+        private string GetVisaNoGovtEmployee()
+        {
+            string str = "VISA-GE-";
+            Random rnd = new Random();
+            return str + rnd.Next(1000, 9999).ToString();
+        }
+
+        private string GetVisaNoPrivateEmployee()
+        {
+            string str = "VISA-PE-";
+            Random rnd = new Random();
+            return str + rnd.Next(1000, 9999).ToString();
+        }
+
+        private string GetVisaNoStudent()
+        {
+            string str = "VISA-S-";
+            Random rnd = new Random();
+            return str + rnd.Next(1000, 9999).ToString();
+        }
+
+        public bool CancelVisa(ApplyVisa CV)
+        {
+            throw new NotImplementedException();
+        }
+		public string fetchApplyPassportbyUserId(int UserId)
         {
             List<ApplyPassport> U = new List<ApplyPassport>();
 
             U = PVMSModel.ApplyPassports.Where(x => x.UserId == UserId).ToList();
             var json = new JavaScriptSerializer().Serialize(U);
             return json;
-        }
-
-        public List<ApplyVisa> ApplyVisa()
-        {
-            throw new NotImplementedException();
         }
     }
 }

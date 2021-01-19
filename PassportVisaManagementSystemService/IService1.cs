@@ -52,7 +52,7 @@ namespace PassportVisaManagementSystemService
         int getIdByUserId(string userName);
 
         [OperationContract]
-        string getPassportNumberByUserName(string userName);
+        string getPassportNumberByUserName(int userName);
 
 
         [OperationContract]
@@ -63,9 +63,12 @@ namespace PassportVisaManagementSystemService
 
         [OperationContract]
         List<City> City();
-        [OperationContract]
-        List<ApplyVisa> ApplyVisa();
+        
+		[OperationContract]
+        bool ApplyForVisa(ApplyVisa AV);
 
+        [OperationContract]
+        bool CancelVisa(ApplyVisa CV);
 
     }
 
