@@ -301,20 +301,15 @@ namespace PassportVisaManagementSystemService
         public string getPassportNumberByUserName(int userName)
         {
             List<ApplyPassport> U = new List<ApplyPassport>();
-          //int userId = getIdByUserId(userName);
-           
-
-                U = PVMSModel.ApplyPassports.Where(x => x.UserId == userName).ToList();
-                if (U.Count > 0)
-                {
-                    return U[0].PassportNumber;
-                }
-                else
-                {
-                    return null;
-                }
-            
-     
+            U = PVMSModel.ApplyPassports.Where(x => x.UserId == userName).ToList();
+            if (U.Count > 0)
+            {
+                return U[0].PassportNumber;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         
@@ -323,25 +318,22 @@ namespace PassportVisaManagementSystemService
             AV.DateOfIssue = AV.DateOfApplication.AddDays(10);
             DateTime ExpiryDate = DateTime.Today;
             int registrationcost = 0;
-            
+            string ct = (from c in PVMSModel.Countries
+                         where AV.CountryId == c.CountryId
+                         select c.CountryName).FirstOrDefault();
             string str = getPassportNumberByUserName(AV.UserId);
-
-            string occupation = AV.Occupation.ToString().ToLower();
-            string countries = AV.Countries.ToString().ToLower();
-            string occupationUpper = AV.Countries.ToString().ToUpper();
-            string countriesUpper = AV.Countries.ToString().ToUpper();
             if (str != null)
             {
                 if (AV.Occupation.ToString() == "Student")
                 {
                     AV.VisaNumber = GetVisaNoStudent();
                     ExpiryDate = AV.DateOfIssue.AddYears(2);
-
-                    if (AV.Countries.ToString() == "USA")
+                    
+                    if (ct == "United States")
                         registrationcost = 3000;
-                    else if (AV.Countries.ToString() == "China")
+                    else if (ct == "China")
                         registrationcost = 1500;
-                    else if (AV.Countries.ToString() == "Japan")
+                    else if (ct == "Japan")
                         registrationcost = 3500;
                     else
                         registrationcost = 2500;
@@ -351,11 +343,11 @@ namespace PassportVisaManagementSystemService
                     AV.VisaNumber = GetVisaNoPrivateEmployee();
                     ExpiryDate = AV.DateOfIssue.AddYears(3);
 
-                    if (AV.Countries.ToString() == "USA")
+                    if (ct == "United States")
                         registrationcost = 4500;
-                    else if (AV.Countries.ToString() == "China")
+                    else if (ct == "China")
                         registrationcost = 2000;
-                    else if (AV.Countries.ToString() == "Japan")
+                    else if (ct == "Japan")
                         registrationcost = 4000;
                     else
                         registrationcost = 3000;
@@ -365,11 +357,11 @@ namespace PassportVisaManagementSystemService
                     AV.VisaNumber = GetVisaNoGovtEmployee();
                     ExpiryDate = AV.DateOfIssue.AddYears(4);
 
-                    if (AV.Countries.ToString() == "USA")
+                    if (ct == "United States")
                         registrationcost = 5000;
-                    else if (AV.Countries.ToString() == "China")
+                    else if (ct == "China")
                         registrationcost = 3000;
-                    else if (AV.Countries.ToString() == "Japan")
+                    else if (ct == "Japan")
                         registrationcost = 4500;
                     else
                         registrationcost = 3500;
@@ -379,11 +371,11 @@ namespace PassportVisaManagementSystemService
                     AV.VisaNumber = GetVisaNoSelfEmployed();
                     ExpiryDate = AV.DateOfIssue.AddYears(1);
 
-                    if (AV.Countries.ToString() == "USA")
+                    if (ct == "United States")
                         registrationcost = 6000;
-                    else if (AV.Countries.ToString() == "China")
+                    else if (ct == "China")
                         registrationcost = 4000;
-                    else if (AV.Countries.ToString() == "Japan")
+                    else if (ct == "Japan")
                         registrationcost = 9000;
                     else
                         registrationcost = 5500;
@@ -393,11 +385,11 @@ namespace PassportVisaManagementSystemService
                     AV.VisaNumber = GetVisaNoRetiredEmployee();
                     ExpiryDate = AV.DateOfIssue.AddYears(1).AddMonths(6);
 
-                    if (AV.Countries.ToString() == "USA")
+                    if (ct == "United States")
                         registrationcost = 2000;
-                    else if (AV.Countries.ToString() == "China")
+                    else if (ct == "China")
                         registrationcost = 2000;
-                    else if (AV.Countries.ToString() == "Japan")
+                    else if (ct == "Japan")
                         registrationcost = 1000;
                     else
                         registrationcost = 1000;

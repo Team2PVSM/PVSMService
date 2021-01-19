@@ -22,7 +22,10 @@ namespace PassportVisaManagementSystemService.Model
         public virtual User User { set; get; }
 
         [DataMember]
-        public Country Countries { set; get; }
+        public int? CountryId { set; get; }
+
+        [ForeignKey("CountryId")]
+        public virtual Country Country { set; get; }
         [DataMember]
         public string Occupation { set; get; }
 
@@ -46,11 +49,6 @@ namespace PassportVisaManagementSystemService.Model
 
         [DataMember]
         public int CancellationCharge { set; get; }
-
-
-        
-
-
 
     }
 }
