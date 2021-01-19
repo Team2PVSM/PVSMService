@@ -119,7 +119,7 @@ namespace PassportVisaManagementSystemService
         {
             List<User> U = new List<User>();
 
-            U = PVMSModel.Users.Where(x=>x.EmailAddress==Email).ToList();
+            U = PVMSModel.Users.Where(x => x.EmailAddress == Email).ToList();
             var json = new JavaScriptSerializer().Serialize(U);
             return json;
         }
@@ -132,9 +132,9 @@ namespace PassportVisaManagementSystemService
             var json = new JavaScriptSerializer().Serialize(U);
             return json;
         }
-        public string FetchUserByuserparameter(string parameter,string value)
+        public string FetchUserByuserparameter(string parameter, string value)
         {
-            if (parameter.ToLower() =="email")
+            if (parameter.ToLower() == "email")
             {
                 List<User> U = new List<User>();
 
@@ -232,7 +232,7 @@ namespace PassportVisaManagementSystemService
             RP.Amount = ReIssueAmount(RP.ServiceType);
             RP.Status = "reissuepassport";
             var oldPassport = PVMSModel.ApplyPassports.FirstOrDefault(x => x.UserId == RP.UserId);
-            if(oldPassport != null)
+            if (oldPassport != null)
             {
                 PVMSModel.ApplyPassports.Remove(oldPassport);
                 PVMSModel.ApplyPassports.Add(RP);
@@ -276,7 +276,7 @@ namespace PassportVisaManagementSystemService
         }
         public string FetchCity(int StateId)
         {
-            
+
             List<City> U = new List<City>();
 
             U = PVMSModel.Cities.Where(x => x.StateId == StateId).ToList();
@@ -300,10 +300,10 @@ namespace PassportVisaManagementSystemService
             List<User> U = new List<User>();
 
             U = PVMSModel.Users.Where(x => x.UserId == userName).ToList();
-            if (U.Count>0)
+            if (U.Count > 0)
             {
 
-            return U[0].Id;
+                return U[0].Id;
             }
             return 0;
         }
@@ -312,7 +312,7 @@ namespace PassportVisaManagementSystemService
         {
             List<ApplyPassport> U = new List<ApplyPassport>();
             int userId = getIdByUserId(userName);
-            if (userId>0)
+            if (userId > 0)
             {
 
                 U = PVMSModel.ApplyPassports.Where(x => x.UserId == userId).ToList();
@@ -329,6 +329,15 @@ namespace PassportVisaManagementSystemService
             {
                 return null;
             }
+        }
+
+        public string fetchApplyPassportbyUserId(int UserId)
+        {
+            List<ApplyPassport> U = new List<ApplyPassport>();
+
+            U = PVMSModel.ApplyPassports.Where(x => x.UserId == UserId).ToList();
+            var json = new JavaScriptSerializer().Serialize(U);
+            return json;
         }
 
         public List<ApplyVisa> ApplyVisa()

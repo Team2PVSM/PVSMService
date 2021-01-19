@@ -54,6 +54,10 @@ namespace PassportVisaManagementSystemService
         [OperationContract]
         string getPassportNumberByUserName(string userName);
 
+
+        [OperationContract]
+        string fetchApplyPassportbyUserId(int UserId);
+
         [OperationContract]
         List<State> State();
 
