@@ -450,7 +450,64 @@ namespace PassportVisaManagementSystemService
 
         public bool CancelVisa(ApplyVisa CV)
         {
-            throw new NotImplementedException();
+            ApplyVisa VA = (from c in PVMSModel.ApplyVisas
+                            where c.UserId == CV.UserId && c.VisaNumber == CV.VisaNumber && c.DateOfIssue == CV.DateOfIssue
+                            select c).FirstOrDefault();
+            //string str = getPassportNumberByUserName(CV.UserId);
+            if (VA != null)
+            {
+                int cancellationcost = 0;
+                int Diff_mon = 0;
+                if (DateTime.Today < VA.DateOfExpiry)
+                    Diff_mon = Math.Abs((VA.DateOfExpiry.Month - DateTime.Today.Month) + 12 * (VA.DateOfExpiry.Year - DateTime.Today.Year));
+                if (VA.Occupation == "Student")
+                {
+                    if (Diff_mon < 6)
+                        cancellationcost = (int)(0.15 * VA.RegistrationCost);
+                    else if (Diff_mon >= 6)
+                        cancellationcost = (int)(0.25 * VA.RegistrationCost);
+                }
+                else if (VA.Occupation == "Private Employee")
+                {
+                    if (Diff_mon < 6)
+                        cancellationcost = (int)(0.15 * VA.RegistrationCost);
+                    else if (Diff_mon >= 6 && Diff_mon < 12)
+                        cancellationcost = (int)(0.25 * VA.RegistrationCost);
+                    else if (Diff_mon >= 12)
+                        cancellationcost = (int)(0.20 * VA.RegistrationCost);
+                }
+                else if (VA.Occupation == "Government Employee")
+                {
+                    if (Diff_mon >= 6 && Diff_mon < 12)
+                        cancellationcost = (int)(0.20 * VA.RegistrationCost);
+                    else if (Diff_mon >= 12)
+                        cancellationcost = (int)(0.25 * VA.RegistrationCost);
+                    else if (Diff_mon < 6)
+                        cancellationcost = (int)(0.15 * VA.RegistrationCost);
+                }
+                else if (VA.Occupation == "Self Employed")
+                {
+                    if (Diff_mon < 6)
+                        cancellationcost = (int)(0.15 * VA.RegistrationCost);
+                    else if (Diff_mon >= 6)
+                        cancellationcost = (int)(0.25 * VA.RegistrationCost);
+                }
+                else if (VA.Occupation == "Retired Employee")
+                {
+                    if (Diff_mon < 6)
+                        cancellationcost = (int)(0.10 * VA.RegistrationCost);
+                    else if (Diff_mon >= 6)
+                        cancellationcost = (int)(0.20 * VA.RegistrationCost);
+                }
+
+                VA.CancellationCharge = cancellationcost;
+                VA.status = "Cancelled";
+                PVMSModel.SaveChanges();
+                return true;
+            }
+            else
+                return false;
+
         }
 		public string fetchApplyPassportbyUserId(int UserId)
         {
@@ -459,6 +516,19 @@ namespace PassportVisaManagementSystemService
             U = PVMSModel.ApplyPassports.Where(x => x.UserId == UserId).ToList();
             var json = new JavaScriptSerializer().Serialize(U);
             return json;
+        }
+
+        public bool AuthenticationQues(User U)
+        {
+            User Authenticity = (from c in PVMSModel.Users
+                                   where c.UserId == U.UserId && c.HintAnswer == U.HintAnswer
+                                   select c).FirstOrDefault();
+            if (Authenticity != null)
+            {
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

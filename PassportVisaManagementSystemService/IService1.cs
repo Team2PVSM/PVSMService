@@ -70,6 +70,9 @@ namespace PassportVisaManagementSystemService
         [OperationContract]
         bool CancelVisa(ApplyVisa CV);
 
+        [OperationContract]
+        bool AuthenticationQues(User U);
+
     }
 
 }
