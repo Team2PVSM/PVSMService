@@ -73,6 +73,9 @@ namespace PassportVisaManagementSystemService
         [OperationContract]
         bool AuthenticationQues(User U);
 
+        [OperationContract]
+        string FetchVisaNumber(int id);
+
     }
 
 }

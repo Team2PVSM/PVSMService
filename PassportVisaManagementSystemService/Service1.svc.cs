@@ -530,5 +530,11 @@ namespace PassportVisaManagementSystemService
             else
                 return false;
         }
+
+        public string FetchVisaNumber(int id)
+        {
+            ApplyVisa A = PVMSModel.ApplyVisas.FirstOrDefault(x => x.UserId == id);
+            return A.VisaNumber;
+        }
     }
 }
