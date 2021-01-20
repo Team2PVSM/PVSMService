@@ -74,8 +74,13 @@ namespace PassportVisaManagementSystemService
         bool AuthenticationQues(User U);
 
         [OperationContract]
-        string FetchVisaNumber(int id);
+        string fetchApplyVisabyUserId(int UserId);
 
+        [OperationContract]
+        string fetchCountryStateCityById(int country);
+		
+		[OperationContract]
+        string FetchVisaNumber(int id);
     }
 
 }
