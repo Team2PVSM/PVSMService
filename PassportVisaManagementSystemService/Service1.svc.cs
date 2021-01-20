@@ -562,5 +562,24 @@ namespace PassportVisaManagementSystemService
             }
 
         }
+
+        public string FetchHintQuestionByUserName(string username)
+        {
+            User U = new User();
+            HintQuestion HQ = new HintQuestion();
+
+
+
+            U = PVMSModel.Users.Where(x => x.UserId == username).FirstOrDefault();
+            if (U!=null)
+            {
+                HQ = PVMSModel.HintQuestions.Where(x => x.Id == U.HintQuestionId).FirstOrDefault();
+                return HQ.Questions;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

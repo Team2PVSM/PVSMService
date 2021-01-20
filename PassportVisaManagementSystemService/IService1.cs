@@ -81,6 +81,9 @@ namespace PassportVisaManagementSystemService
 		
 		[OperationContract]
         string FetchVisaNumber(int id);
+
+        [OperationContract]
+        string FetchHintQuestionByUserName(string username);
     }
 
 }
