@@ -536,5 +536,31 @@ namespace PassportVisaManagementSystemService
             ApplyVisa A = PVMSModel.ApplyVisas.FirstOrDefault(x => x.UserId == id);
             return A.VisaNumber;
         }
+        public string fetchApplyVisabyUserId(int UserId)
+        {
+            List<ApplyVisa> U = new List<ApplyVisa>();
+
+            U = PVMSModel.ApplyVisas.Where(x => x.UserId == UserId).ToList();
+            var json = new JavaScriptSerializer().Serialize(U);
+            return json;
+        }
+
+        public string fetchCountryStateCityById(int country)
+        {
+
+            List<Country> C = new List<Country>();
+
+
+            C = PVMSModel.Countries.Where(x => x.CountryId == country).ToList();
+            if (C.Count > 0)
+            {
+                return C[0].CountryName;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
     }
 }
