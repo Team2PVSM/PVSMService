@@ -567,9 +567,6 @@ namespace PassportVisaManagementSystemService
         {
             User U = new User();
             HintQuestion HQ = new HintQuestion();
-
-
-
             U = PVMSModel.Users.Where(x => x.UserId == username).FirstOrDefault();
             if (U!=null)
             {
@@ -580,6 +577,16 @@ namespace PassportVisaManagementSystemService
             {
                 return null;
             }
+        }
+		public string EmailAddress(string email)
+        {
+            User U = PVMSModel.Users.FirstOrDefault(x => x.EmailAddress == email);
+            if (U != null)
+            {
+                return U.EmailAddress;
+            }
+            else
+                return null;
         }
     }
 }

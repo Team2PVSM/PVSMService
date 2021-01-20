@@ -84,6 +84,9 @@ namespace PassportVisaManagementSystemService
 
         [OperationContract]
         string FetchHintQuestionByUserName(string username);
+		
+		[OperationContract]
+        string EmailAddress(string email);
     }
 
 }
