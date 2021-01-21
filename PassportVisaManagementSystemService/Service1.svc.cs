@@ -1,6 +1,8 @@
 ﻿using PassportVisaManagementSystemService.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -218,8 +220,11 @@ namespace PassportVisaManagementSystemService
                 PVMSModel.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch (DbUpdateException d)
             {
+                SqlException sql = (SqlException)d.GetBaseException();
+               
+                string str = sql.Message;
                 return false;
             }
 
@@ -717,6 +722,48 @@ namespace PassportVisaManagementSystemService
             catch (Exception)
             {
                 return "Not Exists";
+            }
+        }
+        public bool CheckUserHaveApplyPassport(int userId)
+        {
+           List<ApplyPassport> AP = PVMSModel.ApplyPassports.ToList() ;
+            if (AP.Count>0)
+            {
+                ApplyPassport U = PVMSModel.ApplyPassports.FirstOrDefault(x => x.UserId == userId);
+                if(U != null)
+                {
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool CheckUserHaveApplyVisa(int userId)
+        {
+            List<ApplyVisa> AP = PVMSModel.ApplyVisas.ToList();
+            if (AP.Count > 0)
+            {
+                ApplyVisa U = PVMSModel.ApplyVisas.FirstOrDefault(x => x.UserId == userId);
+                if (U != null)
+                {
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
     }

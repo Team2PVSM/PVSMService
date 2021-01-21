@@ -87,6 +87,15 @@ namespace PassportVisaManagementSystemService
 		
 		[OperationContract]
         string EmailAddress(string email);
+
+        [OperationContract]
+        bool CheckUserHaveApplyPassport(int userId);
+
+        [OperationContract]
+        bool CheckUserHaveApplyVisa(int userId);
+
+
+
     }
 
 }
