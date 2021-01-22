@@ -16,6 +16,7 @@ namespace PassportVisaManagementSystemService
     public class Service1 : IService1
     {
         Model1 PVMSModel = new Model1();
+        //This method signin the user while checks whether the EmailId is already registered or not. 
         public bool SignIn(string Username, string Password)
         {
             try
@@ -37,14 +38,13 @@ namespace PassportVisaManagementSystemService
                 return false;
             }
         }
-
+        //This method register the user, generate the userid according to type.
         public bool SignUp(User U)
         {
             try
             {
                 if (U.ApplyType.ToLower() == "passport")
                 {
-                    //U.UserId = getRandomNoForPass();
                     int passid = (from c in PVMSModel.Users
                                   where c.ApplyType == U.ApplyType
                                   select c).Count() + 1;
@@ -53,7 +53,6 @@ namespace PassportVisaManagementSystemService
                 }
                 if (U.ApplyType.ToLower() == "visa")
                 {
-                    //U.UserId = getRandomNoForVisa();
                     int visaid = (from c in PVMSModel.Users
                                   where c.ApplyType == U.ApplyType
                                   select c).Count() + 1;
@@ -71,7 +70,7 @@ namespace PassportVisaManagementSystemService
                 return false;
             }
         }
-
+        //This method get the user's citizen type based on his age.
         public string getCitizenType(DateTime Dob)
         {
             int age = DateTime.Now.Year - Dob.Year;
@@ -99,7 +98,7 @@ namespace PassportVisaManagementSystemService
 
             return str;
         }
-
+        //This method generate the password for user.
         public string getPassword(DateTime dob)
         {
 
@@ -115,7 +114,7 @@ namespace PassportVisaManagementSystemService
 
 
         }
-
+        //This method fetch the Hint questions for user when he is registering.
         public List<HintQuestion> FetchHintQuestion()
         {
             try
@@ -127,8 +126,7 @@ namespace PassportVisaManagementSystemService
                 return null;
             }
         }
-
-
+        //This method check the email address whether it's already registerd or not
         public string FetchUserByEmailAddress(string Email)
         {
             try
@@ -144,7 +142,7 @@ namespace PassportVisaManagementSystemService
                 return "User Doesn't Exists";
             }
         }
-
+        //This method check that userid is already registered or not.
         public string FetchUserByuserId(string UserId)
         {
             try
@@ -160,6 +158,7 @@ namespace PassportVisaManagementSystemService
                 return "User ID not Exists";
             }
         }
+        //This method fetch the user by emaiil and and userid.
         public string FetchUserByuserparameter(string parameter, string value)
         {
             try
@@ -190,13 +189,13 @@ namespace PassportVisaManagementSystemService
                 return "Wrong Information";
             }
         }
+        //This method generates PassportNumber based on validations and conditions mentioned and insert in database.
         public bool ApplyForPassport(ApplyPassport AP)
         {
             try
             {
                 if (AP.BookletType.ToLower() == "60pages")
                 {
-                    //AP.PassportNumber = GetPassportIdForSixty();
                     var fps30 = (from c in PVMSModel.ApplyPassports
                                  select c.PassportNumber.Substring(c.PassportNumber.Length - 4, c.PassportNumber.Length)).Max();
                     if (fps30 == null)
@@ -205,7 +204,6 @@ namespace PassportVisaManagementSystemService
                 }
                 if (AP.BookletType.ToLower() == "30pages")
                 {
-                    //AP.PassportNumber = GetPassportIdForThirty();
                     var fps60 = (from c in PVMSModel.ApplyPassports
                                  select c.PassportNumber.Substring(c.PassportNumber.Length - 4, c.PassportNumber.Length)).Max();
                     if (fps60 == null)
@@ -227,9 +225,8 @@ namespace PassportVisaManagementSystemService
                 string str = sql.Message;
                 return false;
             }
-
         }
-
+        //This method generate the amount to be paid by user while applying for passport.
         private double GetAmount(string serviceType)
         {
             double namt = 2500;
@@ -243,19 +240,19 @@ namespace PassportVisaManagementSystemService
                 return tamt;
             }
         }
-
+        //This method generate the expiry date based on the conditons mentioned for applying and reissuing passport
         private DateTime GetExpiryDate(DateTime issueDate)
         {
             return issueDate.AddYears(10);
         }
-
+        //This method generates NewPassportNumber based on validations and conditions mentioned and insert in database
+        //OldPassport data is also stored in database
         public bool ReIssuePassport(ApplyPassport RP)
         {
             try
             {
                 if (RP.BookletType.ToLower() == "60pages")
                 {
-                    //RP.PassportNumber = GetPassportIdForSixty();
                     var fps30 = (from c in PVMSModel.ApplyPassports
                                  select c.PassportNumber.Substring(c.PassportNumber.Length - 4, c.PassportNumber.Length)).Max();
                     if (fps30 == null)
@@ -264,7 +261,6 @@ namespace PassportVisaManagementSystemService
                 }
                 if (RP.BookletType.ToLower() == "30pages")
                 {
-                    //RP.PassportNumber = GetPassportIdForThirty();
                     var fps30 = (from c in PVMSModel.ApplyPassports
                                  select c.PassportNumber.Substring(c.PassportNumber.Length - 4, c.PassportNumber.Length)).Max();
                     if (fps30 == null)
@@ -296,7 +292,7 @@ namespace PassportVisaManagementSystemService
                 return false;
             }
         }
-
+        //This method generate the amount to be paid by user while reissuing the passport.
         private double ReIssueAmount(string serviceType)
         {
             double namt = 1500;
@@ -310,7 +306,7 @@ namespace PassportVisaManagementSystemService
                 return tamt;
             }
         }
-
+        //This method fetch the list of country from database.
         public List<Country> FetchCountries()
         {
             try
@@ -322,6 +318,7 @@ namespace PassportVisaManagementSystemService
                 return null;
             }
         }
+        //This method fetch the list of state for selected country.
         public string FetchState(int CountryId)
         {
             try
@@ -336,6 +333,7 @@ namespace PassportVisaManagementSystemService
                 return "Something went wrong";
             }
         }
+        //This method fetch the list of city for selected state.
         public string FetchCity(int StateId)
         {
             try
@@ -362,7 +360,7 @@ namespace PassportVisaManagementSystemService
         {
             throw new NotImplementedException();
         }
-
+        //This method verify the userid.
         public int getIdByUserId(string userName)
         {
             try
@@ -382,7 +380,7 @@ namespace PassportVisaManagementSystemService
                 return 0;
             }
         }
-
+        //This method fetch the passport number while giving the userid to it.
         public string getPassportNumberByUserName(int userName)
         {
             try
@@ -403,8 +401,7 @@ namespace PassportVisaManagementSystemService
                 return "Not Exists";
             }
         }
-
-        
+        //This method is used for generating visa for the user and generate visa number, amount to be paid, expiry date and date of issue based on the conditon given.
 		public bool ApplyForVisa(ApplyVisa AV)
         {
             try
@@ -420,7 +417,6 @@ namespace PassportVisaManagementSystemService
                 {
                     if (AV.Occupation.ToString() == "Student")
                     {
-                        //AV.VisaNumber = GetVisaNoStudent();
                         int student_visaid = (from c in PVMSModel.ApplyVisas
                                               where c.Occupation == AV.Occupation
                                               select c).Count() + 1;
@@ -438,7 +434,6 @@ namespace PassportVisaManagementSystemService
                     }
                     else if (AV.Occupation.ToString() == "Private Employee")
                     {
-                        //AV.VisaNumber = GetVisaNoPrivateEmployee();
                         int student_visaid = (from c in PVMSModel.ApplyVisas
                                               where c.Occupation == AV.Occupation
                                               select c).Count() + 1;
@@ -456,7 +451,6 @@ namespace PassportVisaManagementSystemService
                     }
                     else if (AV.Occupation.ToString() == "Government Employee")
                     {
-                        //AV.VisaNumber = GetVisaNoGovtEmployee();
                         int student_visaid = (from c in PVMSModel.ApplyVisas
                                               where c.Occupation == AV.Occupation
                                               select c).Count() + 1;
@@ -474,7 +468,6 @@ namespace PassportVisaManagementSystemService
                     }
                     else if (AV.Occupation.ToString() == "Self Employed")
                     {
-                        //AV.VisaNumber = GetVisaNoSelfEmployed();
                         int student_visaid = (from c in PVMSModel.ApplyVisas
                                               where c.Occupation == AV.Occupation
                                               select c).Count() + 1;
@@ -492,7 +485,6 @@ namespace PassportVisaManagementSystemService
                     }
                     else if (AV.Occupation.ToString() == "Retired Employee")
                     {
-                        //AV.VisaNumber = GetVisaNoRetiredEmployee();
                         int student_visaid = (from c in PVMSModel.ApplyVisas
                                               where c.Occupation == AV.Occupation
                                               select c).Count() + 1;
@@ -531,7 +523,7 @@ namespace PassportVisaManagementSystemService
                 return false;
             }
         }
-
+        //This method cancel the visa while checking if user already has visa or not and generate the cancellation charge for the user and change the status in database.
         public bool CancelVisa(ApplyVisa CV)
         {
             try
@@ -539,7 +531,6 @@ namespace PassportVisaManagementSystemService
                 ApplyVisa VA = (from c in PVMSModel.ApplyVisas
                                 where c.UserId == CV.UserId && c.VisaNumber == CV.VisaNumber && c.DateOfIssue == CV.DateOfIssue
                                 select c).FirstOrDefault();
-                //string str = getPassportNumberByUserName(CV.UserId);
                 if (VA != null)
                 {
                     int cancellationcost = 0;
@@ -600,7 +591,8 @@ namespace PassportVisaManagementSystemService
             }
 
         }
-		public string fetchApplyPassportbyUserId(int UserId)
+		//This method fetch the passport number while giving the userid.
+        public string fetchApplyPassportbyUserId(int UserId)
         {
             try
             {
@@ -615,7 +607,7 @@ namespace PassportVisaManagementSystemService
                 return "Doesn't Exists";
             }
         }
-
+        //This method check whether the answer of hint question is given correct by the user. This method verify user for cancelling the visa.
         public bool AuthenticationQues(User U)
         {
             try
@@ -635,7 +627,7 @@ namespace PassportVisaManagementSystemService
                 return false;
             }
         }
-
+        //This method fetch the visa number while giving the userid.
         public string FetchVisaNumber(int id)
         {
             try
@@ -648,6 +640,7 @@ namespace PassportVisaManagementSystemService
                 return "Not Exists";
             }
         }
+        //This method check if user have visa number or not.
         public string fetchApplyVisabyUserId(int UserId)
         {
             try
@@ -663,7 +656,7 @@ namespace PassportVisaManagementSystemService
                 return "Not Exists";
             }
         }
-
+        //This method fetch the country id while giving the country name.
         public string fetchCountryStateCityById(int country)
         {
             try
@@ -684,7 +677,7 @@ namespace PassportVisaManagementSystemService
                 return "Something went wrong";
             }
         }
-
+        //This method fetch the hint question of specifid user while using his id.
         public string FetchHintQuestionByUserName(string username)
         {
             try
@@ -707,7 +700,8 @@ namespace PassportVisaManagementSystemService
                 return "Something went worng";
             }
         }
-		public string EmailAddress(string email)
+		//This mehtod check the email address if it is already present in database or not.
+        public string EmailAddress(string email)
         {
             try
             {
@@ -724,6 +718,7 @@ namespace PassportVisaManagementSystemService
                 return "Not Exists";
             }
         }
+        //This mehtod check wheter user have passport or not.
         public bool CheckUserHaveApplyPassport(int userId)
         {
            List<ApplyPassport> AP = PVMSModel.ApplyPassports.ToList() ;
@@ -745,6 +740,7 @@ namespace PassportVisaManagementSystemService
                 return false;
             }
         }
+        //This mehtod check i fuser have visa number or not.
         public bool CheckUserHaveApplyVisa(int userId)
         {
             List<ApplyVisa> AP = PVMSModel.ApplyVisas.ToList();

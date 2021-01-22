@@ -54,7 +54,6 @@ namespace PassportVisaManagementSystemService
         [OperationContract]
         string getPassportNumberByUserName(int userName);
 
-
         [OperationContract]
         string fetchApplyPassportbyUserId(int UserId);
 
@@ -93,8 +92,6 @@ namespace PassportVisaManagementSystemService
 
         [OperationContract]
         bool CheckUserHaveApplyVisa(int userId);
-
-
 
     }
 
